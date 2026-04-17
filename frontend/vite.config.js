@@ -3,21 +3,27 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  root: './',
-  publicDir: 'public',
+  
   server: {
     port: 3000,
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
+  
   build: {
     outDir: 'dist',
+    emptyOutDir: true,
     sourcemap: false,
     minify: 'terser',
-    emptyOutDir: true,
+    terserOptions: {
+      compress: {
+        drop_console: true,
+      },
+    },
   },
 });
