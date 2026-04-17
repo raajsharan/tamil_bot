@@ -144,7 +144,7 @@ const Calendar = sequelize.define(
         fields: ['date'],
       },
       {
-        fields: ['dateString'],
+        fields: ['date_string'],
       },
       {
         fields: ['verified'],
