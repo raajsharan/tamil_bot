@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tamil_calendar_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password@1234
+      POSTGRES_DB: tamil_calendar
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tamil-calendar-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tamil_calendar_api
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: tamil_calendar
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: Password@1234
+      DATABASE_DIALECT: postgres
+      JWT_SECRET: your-super-secret-jwt-key-change-this
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_CHANNEL_ID: ${TELEGRAM_CHANNEL_ID}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    networks:
+      - tamil-calendar-net
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tamil_calendar_web
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    depends_on:
+      - backend
+    networks:
+      - tamil-calendar-net
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: tamil_calendar_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/tamil-calendar.conf:/etc/nginx/conf.d/tamil-calendar.conf
+      - ./frontend/dist:/usr/share/nginx/html
+      - /etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - tamil-calendar-net
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  tamil-calendar-net:
+    driver: bridge
