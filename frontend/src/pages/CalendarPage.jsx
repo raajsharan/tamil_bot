@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import client from '../api/client';
+import client from '../../api/client';
 import { Calendar } from 'lucide-react';
 
 export default function CalendarPage() {

@@ -2,7 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'tamil-calendar-api',
-      script: './backend/server.js',
+      script: '/tamil_bot/backend/server.js',
+      cwd: '/tamil_bot',
       instances: 'max',
       exec_mode: 'cluster',
       env: {

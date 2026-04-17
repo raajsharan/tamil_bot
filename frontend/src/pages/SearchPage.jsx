@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import client from '../api/client';
+import client from '../../api/client';
 import { Search } from 'lucide-react';
 
 export default function SearchPage() {

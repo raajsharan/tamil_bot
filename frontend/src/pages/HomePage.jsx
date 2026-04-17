@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import client from '../api/client';
+import client from '../../api/client';
 import { useCalendarStore } from '../store/calendarStore';
 import { Sun, Moon, Wind, Flame } from 'lucide-react';
 

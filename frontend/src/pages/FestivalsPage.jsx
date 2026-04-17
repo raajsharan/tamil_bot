@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import client from '../api/client';
+import client from '../../api/client';
 
 export default function FestivalsPage() {
   const [festivals, setFestivals] = useState([]);

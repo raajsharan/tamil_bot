@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import client from '../api/client';
+import client from '../../api/client';
 import { useAuthStore } from '../store/authStore';
 import { Lock } from 'lucide-react';
 
