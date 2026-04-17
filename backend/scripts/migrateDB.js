@@ -9,8 +9,9 @@ const migrateDB = async () => {
     await sequelize.authenticate();
     console.log('✅ Database connection successful');
 
-    // Sync all models
-    await sequelize.sync({ alter: false });
+    // Sync all models with force false to preserve data
+    // If you need fresh start, set alter: true for auto-migrations
+    await sequelize.sync({ alter: true, force: false });
     console.log('✅ Database tables synced');
 
     console.log('✅ Migration completed successfully');

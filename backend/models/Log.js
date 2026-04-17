@@ -13,9 +13,11 @@ const Log = sequelize.define(
       type: DataTypes.UUID,
       allowNull: true,
       references: {
-        model: 'Admins',
+        model: 'admins',
         key: 'id',
       },
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
     },
     action: {
       type: DataTypes.STRING(100),
@@ -71,7 +73,7 @@ const Log = sequelize.define(
     underscored: true,
     indexes: [
       {
-        fields: ['adminId'],
+        fields: ['admin_id'],
       },
       {
         fields: ['action'],
